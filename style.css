@@ -36,20 +36,18 @@ h1 {
 
 /* Custom audio controls styling */
 .custom-audio-controls {
-    border: 2px solid #d1c87a; /* Bright olive green border */
+    border: 2px solid #d1c87a;
     border-radius: 50px;
     padding: 15px;
     display: flex;
-    flex-direction: column; /* Stack the button row and seek bar vertically */
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap; /* Important: Allows wrapping if needed */
+    align-items: center; /* Vertically aligns items */
+    justify-content: center; /* Horizontally centers items */
     gap: 10px;
     width: 90%;
     margin: 20px auto;
-    background-color: #48473a; /* Darker olive green background for controls */
+    background-color: #48473a;
 }
-
 /* This is the key fix: ensures buttons and speed control stay in a row */
 .audio-controls-row {
     display: flex;
