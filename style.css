@@ -3,21 +3,21 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     margin: 20px;
-    background-color: #0d1b1c; /* Dark background */
-    color: #e0f2f1; /* Light green text */
+    background-color: #3b3a2c; /* Dark olive background */
+    color: #e6e4d4; /* Off-white / light tan text */
 }
 
 .player-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #1a3436; /* Darker green background for the player */
+    background-color: #555447; /* Slightly brighter olive green for the player container */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
 }
 
 h1 {
-    color: #4db6ac; /* Brighter green for the main heading */
+    color: #d1c87a; /* A bright, yellowish-green for the main heading */
     text-align: center;
 }
 
@@ -36,17 +36,28 @@ h1 {
 
 /* Custom audio controls styling */
 .custom-audio-controls {
-    border: 2px solid #4db6ac; /* Green border */
+    border: 2px solid #d1c87a; /* Bright olive green border */
     border-radius: 50px;
     padding: 15px;
     display: flex;
+    flex-direction: column; /* Stack the button row and seek bar vertically */
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 10px;
     width: 90%;
     margin: 20px auto;
-    background-color: #264a4d; /* Dark green background for controls */
+    background-color: #48473a; /* Darker olive green background for controls */
+}
+
+/* Container for audio buttons to keep them in a row */
+.audio-controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
 }
 
 /* Stylish button design (with oval/pill shape) */
@@ -54,9 +65,9 @@ h1 {
     padding: 10px 15px;
     font-size: 14px;
     font-weight: bold;
-    color: #e0f2f1; /* Light green text */
+    color: #e6e4d4; /* Off-white text */
     background-color: transparent;
-    border: 1px solid #e0f2f1; /* Light green border */
+    border: 1px solid #e6e4d4; /* Off-white border */
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
@@ -68,15 +79,15 @@ h1 {
     font-size: 2rem;
     padding: 15px 25px;
     border-radius: 35px;
-    color: #e0f2f1; /* Light green text for large button */
-    border-color: #4db6ac; /* Brighter green border */
+    color: #e6e4d4;
+    border-color: #d1c87a; /* Bright olive border */
 }
 
 .control-button:hover,
 .control-button.active {
-    background-color: #4db6ac; /* Brighter green background on hover */
-    color: #1a3436; /* Dark green text on hover */
-    box-shadow: 0 0 10px 5px rgba(77, 182, 172, 0.5);
+    background-color: #d1c87a; /* Bright olive background on hover */
+    color: #3b3a2c; /* Dark olive text on hover */
+    box-shadow: 0 0 10px 5px rgba(209, 200, 122, 0.5);
 }
 
 .control-button:active {
@@ -89,7 +100,7 @@ h1 {
     flex-grow: 1;
     max-width: 150px;
     height: 8px;
-    background: #4db6ac; /* Brighter green for the slider track */
+    background: #d1c87a; /* Bright olive track */
     outline: none;
     opacity: 0.8;
     transition: opacity .2s;
@@ -105,11 +116,52 @@ h1 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #e0f2f1; /* Light green thumb */
+    background: #e6e4d4; /* Off-white thumb */
     cursor: pointer;
 }
 
-/* Custom controls styling */
+/* Seek bar container styling */
+.seek-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#seek-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #48473a; /* Darker olive track */
+    outline: none;
+    opacity: 0.8;
+    transition: opacity .2s;
+    flex-grow: 1;
+}
+
+#seek-bar:hover {
+    opacity: 1;
+}
+
+#seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #d1c87a; /* Bright olive thumb */
+    cursor: pointer;
+}
+
+.seek-bar-container span {
+    color: #e6e4d4;
+    font-size: 0.9em;
+    font-family: monospace;
+}
+
+/* Custom controls styling (other controls) */
 .custom-controls {
     display: flex;
     flex-wrap: wrap;
@@ -119,17 +171,11 @@ h1 {
     margin-top: 20px;
 }
 
-/* Box for repeat controls */
-.repeat-controls-group {
-    display: flex;
-    gap: 10px;
-}
-
 /* Box for navigation buttons */
 .navigation-controls-box {
     display: flex;
     gap: 10px;
-    border: 1px solid #4db6ac; /* Green border */
+    border: 1px solid #d1c87a; /* Bright olive border */
     padding: 8px;
     border-radius: 5px;
 }
@@ -145,26 +191,35 @@ h1 {
 #text-container {
     margin-top: 30px;
     padding: 15px;
-    background-color: #1a3436; /* Dark green background */
+    background-color: #48473a; /* Darker olive background */
     border-radius: 8px;
-    border: 1px solid #4db6ac; /* Green border */
+    border: 1px solid #d1c87a; /* Bright olive border */
     min-height: 100px;
     text-align: center;
 }
 
 /* Highlighted verse styling */
 .highlight {
-    color: #80cbc4; /* Even brighter green for highlights */
+    color: #d1c87a; /* Bright olive for highlights */
     font-weight: bold;
 }
 
 /* Verse text with bigger font */
 .cue-text {
     font-size: 1.25em;
-    color: #e0f2f1; /* Light green text */
+    color: #e6e4d4; /* Off-white text */
 }
 
 /* Label styling adjustments for dark theme */
 label {
-    color: #e0f2f1;
+    color: #e6e4d4;
+}
+
+/* Styling for the select box (speed control) */
+select#speed-select {
+    background-color: #555447;
+    color: #e6e4d4;
+    border: 1px solid #d1c87a;
+    padding: 5px;
+    border-radius: 5px;
 }

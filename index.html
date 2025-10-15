@@ -26,6 +26,14 @@
     <button id="repeat-chapter" class="control-button">Repeat Dashakam</button>
     <button id="mute-btn" class="control-button" data-muted="false">🔊</button>
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+
+    <!-- New seek bar and time display container -->
+    <div class="seek-bar-container">
+        <span id="current-time">0:00</span>
+        <input type="range" id="seek-bar" min="0" value="0" step="0.01">
+        <span id="total-time">0:00</span>
+    </div>
+
 </div>
     
     <div class="custom-controls">
