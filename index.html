@@ -17,27 +17,36 @@
         </div>
     </div>
     
-    <div class="audio-controls-container">
-        <audio id="audio-player" controls></audio>
-        <div class="audio-control-buttons">
-            <button id="repeat-subsection" class="control-button audio-control control-with-text">
-                <span class="button-text">Repeat Verse</span>
-            </button>
-            <button id="repeat-chapter" class="control-button audio-control control-with-text">
-                <span class="button-text">Repeat Dashakam</span>
-            </button>
+    <audio id="audio-player"></audio>
+    
+    <div class="custom-audio-controls">
+        <div class="main-controls">
+            <button id="custom-play-pause" class="control-button">Play</button>
+            <div class="audio-progress-bar">
+                <div id="progress-bar-fill"></div>
+            </div>
         </div>
-        <div class="speed-control">
-            <label for="speed-select">Speed:</label>
-            <select id="speed-select">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>                    
-                <option value="1.75">1.75x</option>
-                <option value="2.0">2.0x</option>
-            </select>
+        <div class="secondary-controls">
+            <div class="repeat-controls">
+                <button id="repeat-subsection" class="control-button audio-control control-with-text">
+                    <span class="button-text">Repeat Verse</span>
+                </button>
+                <button id="repeat-chapter" class="control-button audio-control control-with-text">
+                    <span class="button-text">Repeat Dashakam</span>
+                </button>
+            </div>
+            <div class="speed-control">
+                <label for="speed-select">Speed:</label>
+                <select id="speed-select">
+                    <option value="0.5">0.5x</option>
+                    <option value="0.75">0.75x</option>
+                    <option value="1" selected>1x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>                    
+                    <option value="1.75">1.75x</option>
+                    <option value="2.0">2.0x</option>
+                </select>
+            </div>
         </div>
     </div>
     
@@ -57,7 +66,6 @@
     <div id="text-container">
         <!-- Text will be dynamically loaded here by Player.js -->
     </div>
-
 </div>
 
 

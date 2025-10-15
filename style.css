@@ -34,19 +34,49 @@ h1 {
     gap: 10px;
 }
 
-/* Audio element and its adjacent controls */
-.audio-controls-container {
+/* Custom audio controls styling */
+.custom-audio-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #e6e6e6;
+    border-radius: 8px;
+}
+
+.main-controls {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 20px 0;
 }
 
-#audio-player {
-    flex-grow: 1; /* Allows audio player to fill available space */
+#custom-play-pause {
+    padding: 10px 20px;
 }
 
-.audio-control-buttons {
+.audio-progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #2e8b57;
+    border-radius: 4px;
+}
+
+.secondary-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.repeat-controls {
     display: flex;
     gap: 5px;
 }
@@ -88,7 +118,7 @@ h1 {
     color: #fff;
     background-color: #2e8b57;
     border: none;
-    border-radius: 20px; /* Adjusted for oval shape */
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
     text-transform: uppercase;
