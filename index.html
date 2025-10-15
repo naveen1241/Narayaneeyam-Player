@@ -21,22 +21,24 @@
     
 <div class="custom-audio-controls">
     <audio id="audio-player"></audio>
-    <button id="custom-play-pause" class="control-button large-button">⏯</button>
-    <button id="rewind-btn" class="control-button">⏪</button>
-    <button id="forward-btn" class="control-button">⏩</button>
-    
-    <!-- Add title attribute for "Repeat Verse" button -->
-    <button id="repeat-subsection" class="control-button" title="Repeat Verse">
-        <i class="fa-solid fa-repeat-1"></i>
-    </button>
+    <div class="main-controls">
+        <button id="custom-play-pause" class="control-button large-button">⏯</button>
+        <button id="rewind-btn" class="control-button">⏪</button>
+        <button id="forward-btn" class="control-button">⏩</button>
 
-    <!-- Add title attribute for "Repeat Dashakam" button -->
-    <button id="repeat-chapter" class="control-button" title="Repeat Dashakam">
-        <i class="fa-solid fa-repeat fa-lg"></i>
-    </button>
-    
-    <button id="mute-btn" class="control-button" data-muted="false">🔊</button>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+        <!-- Add title attribute for "Repeat Verse" button -->
+        <button id="repeat-subsection" class="control-button" title="Repeat Verse">
+            <i class="fa-solid fa-repeat-1"></i>
+        </button>
+
+        <!-- Add title attribute for "Repeat Dashakam" button -->
+        <button id="repeat-chapter" class="control-button" title="Repeat Dashakam">
+            <i class="fa-solid fa-repeat fa-lg"></i>
+        </button>
+
+        <button id="mute-btn" class="control-button" data-muted="false">🔊</button>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+    </div>
 
     <!-- New seek bar and time display container -->
     <div class="seek-bar-container">
@@ -56,19 +58,19 @@
             </button>
         </div>
 
-    <!-- The speed control has been moved here -->
-    <div class="speed-control">
-        <label for="speed-select">Speed:</label>
-        <select id="speed-select">
-            <option value="0.5">0.5x</option>
-            <option value="0.75">0.75x</option>
-            <option value="1" selected>1x</option>
-            <option value="1.25">1.25x</option>
-            <option value="1.5">1.5x</option>                    
-            <option value="1.75">1.75x</option>
-            <option value="2.0">2.0x</option>
-        </select>
-    </div>
+        <!-- The speed control has been moved here -->
+        <div class="speed-control">
+            <label for="speed-select">Speed:</label>
+            <select id="speed-select">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="1.75">1.75x</option>
+                <option value="2.0">2.0x</option>
+            </select>
+        </div>
 
         <!-- Right group: Next buttons -->
         <div class="navigation-group-right">
@@ -79,9 +81,9 @@
                 Dashakam <i class="fa-solid fa-angles-right"></i>
             </button>
         </div>
-
-
+    </div>
 </div>
+
 
 <div class="custom-controls">
     <div class="display-toggle">
