@@ -64,10 +64,11 @@ def convert_vtt_to_html(vtt_dir, output_file):
                 raw_text = caption.text.strip()
                 escaped_text = html.escape(raw_text).replace('\n', '<br>')
                 
+                # Modified logic to add a new CSS class for double font size
                 if ends_with_shloka_marker(raw_text):
-                    text_content = f"<span class='cue-text'>{escaped_text}</span>"
+                    text_content = f"<span class='cue-text larger-cue-text'>{escaped_text}</span>"
                 else:
-                    text_content = escaped_text
+                    text_content = f"<span class='cue-text'>{escaped_text}</span>"
                 
                 cue_id = f"cue_{chapter_id}_{i}"
                 
@@ -102,6 +103,9 @@ def convert_vtt_to_html(vtt_dir, output_file):
         .cue-text {{
             font-size: 1.25em;
             color: #004d40;
+        }}
+        .larger-cue-text {{
+            font-size: 2.5em; /* Double the size */
         }}
     </style>
 </head>
