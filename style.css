@@ -257,5 +257,5 @@ select#speed-select {
 
 /* Increase the font size for the larger repeat icon */
 #repeat-chapter i.fa-repeat {
-    font-size: 1.5rem; /* Adjust as needed for desired size */
+    font-size: 1.0rem; /* Adjust as needed for desired size */
 }
