@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const prevVerseBtn = document.getElementById('prev-verse');
     const nextVerseBtn = document.getElementById('next-verse');
+    // Add these missing variable declarations
     const prevDashakamBtn = document.getElementById('prev-dashakam');
     const nextDashakamBtn = document.getElementById('next-dashakam');
 
@@ -152,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentDashakam < 100) {
             chapterSelect.value = String(currentDashakam + 1).padStart(3, '0');
             loadChapterContent(chapterSelect.value);
-            // Autoplay the next dashakam
             audioPlayer.play();
         }
     }
@@ -235,11 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
             audioPlayer.play();
         } else {
             const currentDashakam = parseInt(chapterSelect.value);
-            // Check if there is a next dashakam
             if (currentDashakam < 100) {
                 seekToNextDashakam();
             } else {
-                // Last dashakam ended, stop playback and clear highlight
                 if (currentCueElement) {
                     currentCueElement.classList.remove('highlight');
                     currentCueElement = null;
@@ -260,14 +258,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let hours = 0, minutes = 0, seconds = 0;
 
         if (parts.length === 3) {
-            hours = parseInt(parts, 10) || 0;
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            hours = parseInt(parts[0], 10) || 0;
+            minutes = parseInt(parts[1], 10) || 0;
+            seconds = parseFloat(parts[2]) || 0;
         } else if (parts.length === 2) {
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            minutes = parseInt(parts[0], 10) || 0;
+            seconds = parseFloat(parts[1]) || 0;
         } else if (parts.length === 1) {
-            seconds = parseFloat(parts) || 0;
+            seconds = parseFloat(parts[0]) || 0;
         }
 
         return hours * 3600 + minutes * 60 + seconds;
