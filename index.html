@@ -45,6 +45,17 @@
         <span id="total-time">0:00</span>
     </div>
 
+    <div class="navigation-controls-box">
+        <!-- Left group: Previous buttons -->
+        <div class="navigation-group-left">
+            <button id="prev-dashakam" class="control-button" title="Previous Dashakam">
+                <i class="fa-solid fa-angles-left"></i> Dashakam
+            </button>
+            <button id="prev-verse" class="control-button" title="Previous Verse">
+                <i class="fa-solid fa-angle-left"></i> Verse
+            </button>
+        </div>
+
     <!-- The speed control has been moved here -->
     <div class="speed-control">
         <label for="speed-select">Speed:</label>
@@ -58,15 +69,21 @@
             <option value="2.0">2.0x</option>
         </select>
     </div>
+
+        <!-- Right group: Next buttons -->
+        <div class="navigation-group-right">
+            <button id="next-verse" class="control-button" title="Next Verse">
+                Verse <i class="fa-solid fa-angle-right"></i>
+            </button>
+            <button id="next-dashakam" class="control-button" title="Next Dashakam">
+                Dashakam <i class="fa-solid fa-angles-right"></i>
+            </button>
+        </div>
+
+
 </div>
 
 <div class="custom-controls">
-    <div class="navigation-controls-box">
-        <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
-        <button id="prev-verse" class="control-button">Previous Verse</button>
-        <button id="next-verse" class="control-button">Next Verse</button>
-        <button id="next-dashakam" class="control-button">Next Dashakam</button>
-    </div>
     <div class="display-toggle">
         <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
     </div>
