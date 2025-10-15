@@ -8,46 +8,52 @@
 </head>
 <body>
 
-    <div class="player-container">
-        <div class="header">
-            <h1>Narayaneeyam Player</h1>
-            <div class="dashakam-navigation">
-                <button id="prev-dashakam">Previous Dashakam</button>
-                <label for="chapter-select">Select Dashakam:</label>
-                <select id="chapter-select"></select>
-                <button id="next-dashakam">Next Dashakam</button>
-            </div>
+<div class="player-container">
+    <div class="header">
+        <h1>Narayaneeyam Player</h1>
+        <div class="dashakam-navigation">
+            <label for="chapter-select">Select Dashakam:</label>
+            <select id="chapter-select"></select>
         </div>
-        
-        <audio id="audio-player" controls></audio>
-        
-        <div class="custom-controls">
-            <button id="prev-verse">Previous Verse</button>
-            <button id="repeat-subsection">Repeat Verse</button>
-            <button id="repeat-chapter">Repeat Dashakam</button>
-            <button id="next-verse">Next Verse</button>
-            <div class="display-toggle">
-                <button id="toggle-transliteration">Display English Transliteration</button>
-            </div>
-            <div class="speed-control">
-                <label for="speed-select">Speed:</label>
-                <select id="speed-select">
-                    <option value="0.5">0.5x</option>
-                    <option value="0.75">0.75x</option>
-                    <option value="1" selected>1x</option>
-                    <option value="1.25">1.25x</option>
-                    <option value="1.5">1.5x</option>                    
-                    <option value="1.75">1.75x</option>
-                    <option value="2.0">2.0x</option>
-                </select>
-            </div>
-        </div>
-
-        <div id="text-container">
-            <!-- Text will be dynamically loaded here by Player.js -->
-        </div>
-
     </div>
+    
+    <div class="audio-controls-container">
+        <audio id="audio-player" controls></audio>
+        <button id="repeat-subsection" class="control-button audio-control">Repeat Verse</button>
+        <button id="repeat-chapter" class="control-button audio-control">Repeat Dashakam</button>
+    </div>
+    
+    <div class="custom-controls">
+        <div class="navigation-controls-box">
+            <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
+            <button id="prev-verse" class="control-button">Previous Verse</button>
+            <button id="next-verse" class="control-button">Next Verse</button>
+            <button id="next-dashakam" class="control-button">Next Dashakam</button>
+        </div>
+        
+        <div class="display-toggle">
+            <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
+        </div>
+        <div class="speed-control">
+            <label for="speed-select">Speed:</label>
+            <select id="speed-select">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>                    
+                <option value="1.75">1.75x</option>
+                <option value="2.0">2.0x</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="text-container">
+        <!-- Text will be dynamically loaded here by Player.js -->
+    </div>
+
+</div>
+
 
     <script src="Player.js"></script>
 
