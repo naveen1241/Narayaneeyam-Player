@@ -18,16 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const muteBtn = document.getElementById('mute-btn');
     const volumeSlider = document.getElementById('volume-slider');
 
-
-
-
-// Add to your existing Player.js file
-
-// Get new elements
-const seekBar = document.getElementById('seek-bar');
-const currentTimeDisplay = document.getElementById('current-time');
-const totalTimeDisplay = document.getElementById('total-time');
-
+    const seekBar = document.getElementById('seek-bar');
+    const currentTimeDisplay = document.getElementById('current-time');
+    const totalTimeDisplay = document.getElementById('total-time');
 
     let isRepeatingChapter = false;
     let isRepeatingSubsection = false;
@@ -235,21 +228,32 @@ const totalTimeDisplay = document.getElementById('total-time');
         isMuted = audioPlayer.muted;
         muteBtn.textContent = isMuted ? '🔇' : '🔊';
     });
-
+    
+    // CONSOLIDATED timeupdate handler
     audioPlayer.addEventListener('timeupdate', () => {
+        const currentTime = audioPlayer.currentTime;
+        const duration = audioPlayer.duration;
+
+        // Update seek bar and time displays
+        seekBar.value = currentTime;
+        currentTimeDisplay.textContent = formatTime(currentTime);
+
         if (!currentChapterText || currentChapterText.length === 0) {
             return;
         }
         
+        let foundCue = false;
+        // Hide all cues before checking for the current one
         currentChapterText.forEach(p => p.style.display = 'none');
         
-        let foundCue = false;
+        // Iterate through the cues and display the matching one
         for (const p of currentChapterText) {
             const startTime = parseTime(p.dataset.start);
             const endTime = parseTime(p.dataset.end);
 
-            if (audioPlayer.currentTime >= startTime && audioPlayer.currentTime < endTime) {
-                p.style.display = 'block';
+            if (currentTime >= startTime && currentTime < endTime) {
+                p.style.display = 'block'; // Display the current cue
+                
                 if (currentCueElement !== p) {
                     if (currentCueElement) {
                         currentCueElement.classList.remove('highlight');
@@ -263,16 +267,14 @@ const totalTimeDisplay = document.getElementById('total-time');
             }
         }
         
-        if (!foundCue) {
-             if (currentCueElement) {
-                currentCueElement.classList.remove('highlight');
-                currentCueElement = null;
-             }
+        if (!foundCue && currentCueElement) {
+             currentCueElement.classList.remove('highlight');
+             currentCueElement = null;
         }
         
         if (isRepeatingSubsection && currentSubsectionCue) {
             const endTime = parseTime(currentSubsectionCue.dataset.end);
-            if (audioPlayer.currentTime >= endTime) {
+            if (currentTime >= endTime) {
                 audioPlayer.currentTime = parseTime(currentSubsectionCue.dataset.start);
             }
         }
@@ -296,52 +298,31 @@ const totalTimeDisplay = document.getElementById('total-time');
         }
     });
 
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        const duration = audioPlayer.duration;
+        seekBar.max = duration;
+        totalTimeDisplay.textContent = formatTime(duration);
+    });
 
+    seekBar.addEventListener('input', () => {
+        currentTimeDisplay.textContent = formatTime(seekBar.value);
+    });
 
-// Function to format time from seconds to mm:ss
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    const paddedSeconds = String(remainingSeconds).padStart(2, '0');
-    return `${minutes}:${paddedSeconds}`;
-}
+    seekBar.addEventListener('change', () => {
+        audioPlayer.currentTime = seekBar.value;
+    });
 
-// Event listener for when audio metadata is loaded (includes duration)
-audioPlayer.addEventListener('loadedmetadata', () => {
-    const duration = audioPlayer.duration;
-    seekBar.max = duration;
-    totalTimeDisplay.textContent = formatTime(duration);
-});
-
-// Event listener to update seek bar and time displays as audio plays
-audioPlayer.addEventListener('timeupdate', () => {
-    const currentTime = audioPlayer.currentTime;
-    const duration = audioPlayer.duration;
-    
-    seekBar.value = currentTime;
-    currentTimeDisplay.textContent = formatTime(currentTime);
-});
-
-// Event listener for user scrubbing the seek bar
-seekBar.addEventListener('input', () => {
-    // This allows real-time update of the current time display while dragging
-    currentTimeDisplay.textContent = formatTime(seekBar.value);
-});
-
-seekBar.addEventListener('change', () => {
-    // Seek the audio to the new position when the user releases the slider
-    audioPlayer.currentTime = seekBar.value;
-});
-
-
-
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        const paddedSeconds = String(remainingSeconds).padStart(2, '0');
+        return `${minutes}:${paddedSeconds}`;
+    }
 
     function parseTime(timeStr) {
         if (!timeStr) return 0;
-        
         const parts = timeStr.split(':');
         let hours = 0, minutes = 0, seconds = 0;
-
         if (parts.length === 3) {
             hours = parseInt(parts[0], 10) || 0;
             minutes = parseInt(parts[1], 10) || 0;
@@ -352,7 +333,6 @@ seekBar.addEventListener('change', () => {
         } else if (parts.length === 1) {
             seconds = parseFloat(parts[0]) || 0;
         }
-
         return hours * 3600 + minutes * 60 + seconds;
     }
 
