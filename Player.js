@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const prevVerseBtn = document.getElementById('prev-verse');
     const nextVerseBtn = document.getElementById('next-verse');
-    // Add these missing variable declarations
     const prevDashakamBtn = document.getElementById('prev-dashakam');
     const nextDashakamBtn = document.getElementById('next-dashakam');
 
@@ -157,23 +156,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    chapterSelect.addEventListener('change', (e) => {
+    chapterSelect?.addEventListener('change', (e) => {
         loadChapterContent(e.target.value);
     });
 
-    toggleTransliterationBtn.addEventListener('click', () => {
+    toggleTransliterationBtn?.addEventListener('click', () => {
         isDisplayingTransliteration = !isDisplayingTransliteration;
         updateTextDisplay();
     });
 
-    speedSelect.addEventListener('change', (e) => {
+    speedSelect?.addEventListener('change', (e) => {
         audioPlayer.playbackRate = parseFloat(e.target.value);
     });
 
-    prevVerseBtn.addEventListener('click', seekToPreviousVerse);
-    nextVerseBtn.addEventListener('click', seekToNextVerse);
-    prevDashakamBtn.addEventListener('click', seekToPreviousDashakam);
-    nextDashakamBtn.addEventListener('click', seekToNextDashakam);
+    prevVerseBtn?.addEventListener('click', seekToPreviousVerse);
+    nextVerseBtn?.addEventListener('click', seekToNextVerse);
+    prevDashakamBtn?.addEventListener('click', seekToPreviousDashakam);
+    nextDashakamBtn?.addEventListener('click', seekToNextDashakam);
+
+    repeatChapterBtn?.addEventListener('click', () => {
+        isRepeatingChapter = !isRepeatingChapter;
+        repeatChapterBtn.classList.toggle('active', isRepeatingChapter);
+    });
+
+    repeatSubsectionBtn?.addEventListener('click', () => {
+        isRepeatingSubsection = !isRepeatingSubsection;
+        repeatSubsectionBtn.classList.toggle('active', isRepeatingSubsection);
+    });
 
     audioPlayer.addEventListener('timeupdate', () => {
         const currentTime = audioPlayer.currentTime;
@@ -224,11 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.dispatchEvent(event);
     });
     
-    repeatChapterBtn.addEventListener('click', () => {
-        isRepeatingChapter = !isRepeatingChapter;
-        repeatChapterBtn.classList.toggle('active', isRepeatingChapter);
-    });
-
     audioPlayer.addEventListener('ended', () => {
         if (isRepeatingChapter) {
             audioPlayer.currentTime = 0;
@@ -246,11 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    repeatSubsectionBtn.addEventListener('click', () => {
-        isRepeatingSubsection = !isRepeatingSubsection;
-        repeatSubsectionBtn.classList.toggle('active', isRepeatingSubsection);
-    });
-    
     function parseTime(timeStr) {
         if (!timeStr) return 0;
         
@@ -258,14 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let hours = 0, minutes = 0, seconds = 0;
 
         if (parts.length === 3) {
-            hours = parseInt(parts[0], 10) || 0;
-            minutes = parseInt(parts[1], 10) || 0;
-            seconds = parseFloat(parts[2]) || 0;
+            hours = parseInt(parts, 10) || 0;
+            minutes = parseInt(parts, 10) || 0;
+            seconds = parseFloat(parts) || 0;
         } else if (parts.length === 2) {
-            minutes = parseInt(parts[0], 10) || 0;
-            seconds = parseFloat(parts[1]) || 0;
+            minutes = parseInt(parts, 10) || 0;
+            seconds = parseFloat(parts) || 0;
         } else if (parts.length === 1) {
-            seconds = parseFloat(parts[0]) || 0;
+            seconds = parseFloat(parts) || 0;
         }
 
         return hours * 3600 + minutes * 60 + seconds;

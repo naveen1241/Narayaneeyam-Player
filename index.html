@@ -11,26 +11,35 @@
     <div class="player-container">
         <div class="header">
             <h1>Narayaneeyam Player</h1>
-            <label for="chapter-select">Select Dashakam:</label>
-            <select id="chapter-select"></select>
+            <div class="dashakam-navigation">
+                <button id="prev-dashakam">Previous Dashakam</button>
+                <label for="chapter-select">Select Dashakam:</label>
+                <select id="chapter-select"></select>
+                <button id="next-dashakam">Next Dashakam</button>
+            </div>
         </div>
         
         <audio id="audio-player" controls></audio>
         
         <div class="custom-controls">
-            <div class="playback-controls">
-    		<button id="prev-dashakam">Previous Dashakam</button>
-		<button id="prev-verse">Previous Verse</button>
-		<button id="repeat-subsection">Repeat Verse</button>
-		<button id="repeat-chapter">Repeat Dashakam</button>
-		<button id="next-verse">Next Verse</button>
-		<button id="next-dashakam">Next Dashakam</button>
-            </div>
-
-         
-            <!-- ADD THIS BUTTON -->
+            <button id="prev-verse">Previous Verse</button>
+            <button id="repeat-subsection">Repeat Verse</button>
+            <button id="repeat-chapter">Repeat Dashakam</button>
+            <button id="next-verse">Next Verse</button>
             <div class="display-toggle">
                 <button id="toggle-transliteration">Display English Transliteration</button>
+            </div>
+            <div class="speed-control">
+                <label for="speed-select">Speed:</label>
+                <select id="speed-select">
+                    <option value="0.5">0.5x</option>
+                    <option value="0.75">0.75x</option>
+                    <option value="1" selected>1x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>                    
+                    <option value="1.75">1.75x</option>
+                    <option value="2.0">2.0x</option>
+                </select>
             </div>
         </div>
 
