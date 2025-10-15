@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const repeatChapterBtn = document.getElementById('repeat-chapter');
     const repeatSubsectionBtn = document.getElementById('repeat-subsection');
     const speedSelect = document.getElementById('speed-select');
-    const volumeSlider = document.getElementById('volume-slider');
     const textContainer = document.getElementById('text-container');
     const toggleTransliterationBtn = document.getElementById('toggle-transliteration');
 
@@ -132,10 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     speedSelect.addEventListener('change', (e) => {
         audioPlayer.playbackRate = parseFloat(e.target.value);
-    });
-
-    volumeSlider.addEventListener('input', (e) => {
-        audioPlayer.volume = parseFloat(e.target.value);
     });
 
     audioPlayer.addEventListener('timeupdate', () => {
