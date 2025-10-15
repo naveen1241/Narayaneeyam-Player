@@ -239,3 +239,8 @@ select#speed-select {
     font-family: 'Times New Roman', Times, serif; /* Or any other serif font for better readability */
     font-size: 1.1em;
 }
+
+/* Increase the font size for the larger repeat icon */
+#repeat-chapter i.fa-repeat {
+    font-size: 1.5em; /* Adjust as needed for desired size */
+}
