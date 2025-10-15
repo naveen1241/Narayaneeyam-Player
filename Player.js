@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const audioPlayer = document.getElementById('audio-player');
     const chapterSelect = document.getElementById('chapter-select');
-    const playPauseBtn = document.getElementById('play-pause');
     const repeatChapterBtn = document.getElementById('repeat-chapter');
     const repeatSubsectionBtn = document.getElementById('repeat-subsection');
     const speedSelect = document.getElementById('speed-select');
     const textContainer = document.getElementById('text-container');
     const toggleTransliterationBtn = document.getElementById('toggle-transliteration');
 
-    let isPlaying = false;
+    const prevVerseBtn = document.getElementById('prev-verse');
+    const nextVerseBtn = document.getElementById('next-verse');
+    const prevDashakamBtn = document.getElementById('prev-dashakam');
+    const nextDashakamBtn = document.getElementById('next-dashakam');
+
     let isRepeatingChapter = false;
     let isRepeatingSubsection = false;
     let currentChapterText = null;
@@ -92,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateTextDisplay() {
-        // Clear the text container before adding new content
         textContainer.innerHTML = '';
         const contentToDisplay = isDisplayingTransliteration ? currentTransliteratedContent : currentChapterContent;
         if (contentToDisplay) {
@@ -102,26 +104,61 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleTransliterationBtn.textContent = isDisplayingTransliteration ? 'Display Sanskrit' : 'Display English Transliteration';
         currentChapterText = textContainer.querySelectorAll('p[data-start]');
         
-        // Force a re-evaluation of the current cue after a slight delay
         setTimeout(() => {
             const event = new Event('timeupdate');
             audioPlayer.dispatchEvent(event);
         }, 50);
     }
 
+    function seekToPreviousVerse() {
+        if (!currentCueElement || !currentChapterText || currentChapterText.length < 2) return;
+        
+        const currentIndex = Array.from(currentChapterText).indexOf(currentCueElement);
+        if (currentIndex > 0) {
+            const previousCue = currentChapterText[currentIndex - 1];
+            audioPlayer.currentTime = parseTime(previousCue.dataset.start);
+            audioPlayer.play();
+        } else {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play();
+        }
+    }
+
+    function seekToNextVerse() {
+        if (!currentCueElement || !currentChapterText || currentChapterText.length < 2) return;
+        
+        const currentIndex = Array.from(currentChapterText).indexOf(currentCueElement);
+        if (currentIndex < currentChapterText.length - 1) {
+            const nextCue = currentChapterText[currentIndex + 1];
+            audioPlayer.currentTime = parseTime(nextCue.dataset.start);
+            audioPlayer.play();
+        } else {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play();
+        }
+    }
+
+    function seekToPreviousDashakam() {
+        let currentDashakam = parseInt(chapterSelect.value);
+        if (currentDashakam > 1) {
+            chapterSelect.value = String(currentDashakam - 1).padStart(3, '0');
+            loadChapterContent(chapterSelect.value);
+            audioPlayer.pause();
+        }
+    }
+
+    function seekToNextDashakam() {
+        let currentDashakam = parseInt(chapterSelect.value);
+        if (currentDashakam < 100) {
+            chapterSelect.value = String(currentDashakam + 1).padStart(3, '0');
+            loadChapterContent(chapterSelect.value);
+            // Autoplay the next dashakam
+            audioPlayer.play();
+        }
+    }
+
     chapterSelect.addEventListener('change', (e) => {
         loadChapterContent(e.target.value);
-    });
-
-    playPauseBtn.addEventListener('click', () => {
-        if (isPlaying) {
-            audioPlayer.pause();
-            playPauseBtn.textContent = 'Play';
-        } else {
-            audioPlayer.play();
-            playPauseBtn.textContent = 'Pause';
-        }
-        isPlaying = !isPlaying;
     });
 
     toggleTransliterationBtn.addEventListener('click', () => {
@@ -132,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
     speedSelect.addEventListener('change', (e) => {
         audioPlayer.playbackRate = parseFloat(e.target.value);
     });
+
+    prevVerseBtn.addEventListener('click', seekToPreviousVerse);
+    nextVerseBtn.addEventListener('click', seekToNextVerse);
+    prevDashakamBtn.addEventListener('click', seekToPreviousDashakam);
+    nextDashakamBtn.addEventListener('click', seekToNextDashakam);
 
     audioPlayer.addEventListener('timeupdate', () => {
         const currentTime = audioPlayer.currentTime;
@@ -167,8 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentCueElement.classList.remove('highlight');
                 currentCueElement = null;
              }
-             // Optional: Display a message when no verse is playing
-             // textContainer.innerHTML = '<i>- No verse currently playing -</i>';
         }
         
         if (isRepeatingSubsection && currentSubsectionCue) {
@@ -194,11 +234,16 @@ document.addEventListener('DOMContentLoaded', () => {
             audioPlayer.currentTime = 0;
             audioPlayer.play();
         } else {
-            isPlaying = false;
-            playPauseBtn.textContent = 'Play';
-            if (currentCueElement) {
-                currentCueElement.classList.remove('highlight');
-                currentCueElement = null;
+            const currentDashakam = parseInt(chapterSelect.value);
+            // Check if there is a next dashakam
+            if (currentDashakam < 100) {
+                seekToNextDashakam();
+            } else {
+                // Last dashakam ended, stop playback and clear highlight
+                if (currentCueElement) {
+                    currentCueElement.classList.remove('highlight');
+                    currentCueElement = null;
+                }
             }
         }
     });
@@ -215,14 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let hours = 0, minutes = 0, seconds = 0;
 
         if (parts.length === 3) {
-            hours = parseInt(parts[0], 10) || 0;
-            minutes = parseInt(parts[1], 10) || 0;
-            seconds = parseFloat(parts[2]) || 0;
+            hours = parseInt(parts, 10) || 0;
+            minutes = parseInt(parts, 10) || 0;
+            seconds = parseFloat(parts) || 0;
         } else if (parts.length === 2) {
-            minutes = parseInt(parts[0], 10) || 0;
-            seconds = parseFloat(parts[1]) || 0;
+            minutes = parseInt(parts, 10) || 0;
+            seconds = parseFloat(parts) || 0;
         } else if (parts.length === 1) {
-            seconds = parseFloat(parts[0]) || 0;
+            seconds = parseFloat(parts) || 0;
         }
 
         return hours * 3600 + minutes * 60 + seconds;
