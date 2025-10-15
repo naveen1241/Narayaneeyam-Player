@@ -196,6 +196,8 @@ h1 {
     border: 1px solid #2e8b57; /* Sea green border */
     min-height: 100px;
     text-align: center;
+ /* Increase the font size for all text inside the container */
+    font-size: 1.25em; /* This will be 1.25 times the parent font size */
 }
 
 /* Highlighted verse styling */
