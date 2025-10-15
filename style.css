@@ -185,6 +185,8 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
+    /* Ensure the speed control doesn't shrink unnecessarily */
+    flex-shrink: 0;
 }
 
 /* Text container styling */

@@ -17,6 +17,7 @@
         </div>
     </div>
     
+...
 <div class="custom-audio-controls">
     <audio id="audio-player"></audio>
     <button id="custom-play-pause" class="control-button large-button">⏯</button>
@@ -34,37 +35,34 @@
         <span id="total-time">0:00</span>
     </div>
 
-</div>
-    
-    <div class="custom-controls">
-        <div class="navigation-controls-box">
-            <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
-            <button id="prev-verse" class="control-button">Previous Verse</button>
-            <button id="next-verse" class="control-button">Next Verse</button>
-            <button id="next-dashakam" class="control-button">Next Dashakam</button>
-        </div>
-        
-        <div class="display-toggle">
-            <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
-        </div>
-        <div class="speed-control">
-            <label for="speed-select">Speed:</label>
-            <select id="speed-select">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>                    
-                <option value="1.75">1.75x</option>
-                <option value="2.0">2.0x</option>
-            </select>
-        </div>
+    <!-- The speed control has been moved here -->
+    <div class="speed-control">
+        <label for="speed-select">Speed:</label>
+        <select id="speed-select">
+            <option value="0.5">0.5x</option>
+            <option value="0.75">0.75x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>                    
+            <option value="1.75">1.75x</option>
+            <option value="2.0">2.0x</option>
+        </select>
     </div>
+</div>
 
-    <div id="text-container">
-        <!-- Text will be dynamically loaded here by Player.js -->
+<div class="custom-controls">
+    <div class="navigation-controls-box">
+        <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
+        <button id="prev-verse" class="control-button">Previous Verse</button>
+        <button id="next-verse" class="control-button">Next Verse</button>
+        <button id="next-dashakam" class="control-button">Next Dashakam</button>
+    </div>
+    <div class="display-toggle">
+        <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
     </div>
 </div>
+...
+
 
 
     <script src="Player.js"></script>
