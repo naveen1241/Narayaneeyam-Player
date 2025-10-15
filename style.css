@@ -3,21 +3,21 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     margin: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #0d1b1c; /* Dark background */
+    color: #e0f2f1; /* Light green text */
 }
 
 .player-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1a3436; /* Darker green background for the player */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
 }
 
 h1 {
-    color: #2e8b57;
+    color: #4db6ac; /* Brighter green for the main heading */
     text-align: center;
 }
 
@@ -34,19 +34,19 @@ h1 {
     gap: 10px;
 }
 
-/* Custom audio controls styling (All controls in a single row) */
+/* Custom audio controls styling */
 .custom-audio-controls {
-    border: 2px solid #fff;
+    border: 2px solid #4db6ac; /* Green border */
     border-radius: 50px;
     padding: 15px;
-    display: flex; /* Makes the container a flexbox */
-    flex-wrap: wrap; /* Allows controls to wrap onto the next line if space is limited */
-    align-items: center; /* Aligns controls vertically in the center */
-    justify-content: center; /* Centers controls horizontally */
-    gap: 10px; /* Adds space between controls */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     width: 90%;
     margin: 20px auto;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #264a4d; /* Dark green background for controls */
 }
 
 /* Stylish button design (with oval/pill shape) */
@@ -54,27 +54,29 @@ h1 {
     padding: 10px 15px;
     font-size: 14px;
     font-weight: bold;
-    color: #fff;
+    color: #e0f2f1; /* Light green text */
     background-color: transparent;
-    border: 1px solid #fff;
+    border: 1px solid #e0f2f1; /* Light green border */
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
     text-transform: uppercase;
-    flex-shrink: 0; /* Prevents buttons from shrinking */
+    flex-shrink: 0;
 }
 
 .control-button.large-button {
     font-size: 2rem;
     padding: 15px 25px;
     border-radius: 35px;
+    color: #e0f2f1; /* Light green text for large button */
+    border-color: #4db6ac; /* Brighter green border */
 }
 
 .control-button:hover,
 .control-button.active {
-    background-color: #fff;
-    color: #556B2F;
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+    background-color: #4db6ac; /* Brighter green background on hover */
+    color: #1a3436; /* Dark green text on hover */
+    box-shadow: 0 0 10px 5px rgba(77, 182, 172, 0.5);
 }
 
 .control-button:active {
@@ -84,12 +86,12 @@ h1 {
 #volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    flex-grow: 1; /* Allows the slider to take up remaining space */
-    max-width: 150px; /* Constrain max width on larger screens */
+    flex-grow: 1;
+    max-width: 150px;
     height: 8px;
-    background: #ccc;
+    background: #4db6ac; /* Brighter green for the slider track */
     outline: none;
-    opacity: 0.7;
+    opacity: 0.8;
     transition: opacity .2s;
 }
 
@@ -103,11 +105,11 @@ h1 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #fff;
+    background: #e0f2f1; /* Light green thumb */
     cursor: pointer;
 }
 
-/* Custom controls styling (other controls, now separated) */
+/* Custom controls styling */
 .custom-controls {
     display: flex;
     flex-wrap: wrap;
@@ -117,11 +119,17 @@ h1 {
     margin-top: 20px;
 }
 
+/* Box for repeat controls */
+.repeat-controls-group {
+    display: flex;
+    gap: 10px;
+}
+
 /* Box for navigation buttons */
 .navigation-controls-box {
     display: flex;
     gap: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #4db6ac; /* Green border */
     padding: 8px;
     border-radius: 5px;
 }
@@ -137,21 +145,26 @@ h1 {
 #text-container {
     margin-top: 30px;
     padding: 15px;
-    background-color: #f9f9f9;
+    background-color: #1a3436; /* Dark green background */
     border-radius: 8px;
-    border: 1px solid #eee;
+    border: 1px solid #4db6ac; /* Green border */
     min-height: 100px;
     text-align: center;
 }
 
 /* Highlighted verse styling */
 .highlight {
-    color: #004d40;
+    color: #80cbc4; /* Even brighter green for highlights */
     font-weight: bold;
 }
 
 /* Verse text with bigger font */
 .cue-text {
     font-size: 1.25em;
-    color: #004d40;
+    color: #e0f2f1; /* Light green text */
+}
+
+/* Label styling adjustments for dark theme */
+label {
+    color: #e0f2f1;
 }
