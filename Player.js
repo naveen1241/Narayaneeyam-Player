@@ -12,11 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevDashakamBtn = document.getElementById('prev-dashakam');
     const nextDashakamBtn = document.getElementById('next-dashakam');
 
+    const customPlayPauseBtn = document.getElementById('custom-play-pause');
+    const rewindBtn = document.getElementById('rewind-btn');
+    const forwardBtn = document.getElementById('forward-btn');
+    const muteBtn = document.getElementById('mute-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+
     let isRepeatingChapter = false;
     let isRepeatingSubsection = false;
     let currentChapterText = null;
     let currentSubsectionCue = null;
     let currentCueElement = null;
+    let isMuted = false;
 
     let currentChapterContent = null;
     let currentTransliteratedContent = null;
@@ -184,9 +191,41 @@ document.addEventListener('DOMContentLoaded', () => {
         repeatSubsectionBtn.classList.toggle('active', isRepeatingSubsection);
     });
 
+    customPlayPauseBtn?.addEventListener('click', () => {
+        if (audioPlayer.paused || audioPlayer.ended) {
+            audioPlayer.play();
+            customPlayPauseBtn.textContent = '⏸';
+        } else {
+            audioPlayer.pause();
+            customPlayPauseBtn.textContent = '⏯';
+        }
+    });
+
+    rewindBtn?.addEventListener('click', () => {
+        audioPlayer.currentTime -= 5;
+    });
+
+    forwardBtn?.addEventListener('click', () => {
+        audioPlayer.currentTime += 5;
+    });
+
+    muteBtn?.addEventListener('click', () => {
+        audioPlayer.muted = !audioPlayer.muted;
+        isMuted = audioPlayer.muted;
+        muteBtn.textContent = isMuted ? '🔇' : '🔊';
+        if (volumeSlider) {
+            volumeSlider.value = isMuted ? 0 : 1;
+        }
+    });
+
+    volumeSlider?.addEventListener('input', (e) => {
+        audioPlayer.volume = parseFloat(e.target.value);
+        audioPlayer.muted = audioPlayer.volume === 0;
+        isMuted = audioPlayer.muted;
+        muteBtn.textContent = isMuted ? '🔇' : '🔊';
+    });
+
     audioPlayer.addEventListener('timeupdate', () => {
-        const currentTime = audioPlayer.currentTime;
-        
         if (!currentChapterText || currentChapterText.length === 0) {
             return;
         }
@@ -198,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const startTime = parseTime(p.dataset.start);
             const endTime = parseTime(p.dataset.end);
 
-            if (currentTime >= startTime && currentTime < endTime) {
+            if (audioPlayer.currentTime >= startTime && audioPlayer.currentTime < endTime) {
                 p.style.display = 'block';
                 if (currentCueElement !== p) {
                     if (currentCueElement) {
@@ -222,17 +261,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (isRepeatingSubsection && currentSubsectionCue) {
             const endTime = parseTime(currentSubsectionCue.dataset.end);
-            if (currentTime >= endTime) {
+            if (audioPlayer.currentTime >= endTime) {
                 audioPlayer.currentTime = parseTime(currentSubsectionCue.dataset.start);
             }
         }
     });
 
-    audioPlayer.addEventListener('seeked', () => {
-        const event = new Event('timeupdate');
-        audioPlayer.dispatchEvent(event);
-    });
-    
     audioPlayer.addEventListener('ended', () => {
         if (isRepeatingChapter) {
             audioPlayer.currentTime = 0;
@@ -246,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentCueElement.classList.remove('highlight');
                     currentCueElement = null;
                 }
+                customPlayPauseBtn.textContent = '⏯';
             }
         }
     });
@@ -257,14 +292,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let hours = 0, minutes = 0, seconds = 0;
 
         if (parts.length === 3) {
-            hours = parseInt(parts, 10) || 0;
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            hours = parseInt(parts[0], 10) || 0;
+            minutes = parseInt(parts[1], 10) || 0;
+            seconds = parseFloat(parts[2]) || 0;
         } else if (parts.length === 2) {
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            minutes = parseInt(parts[0], 10) || 0;
+            seconds = parseFloat(parts[1]) || 0;
         } else if (parts.length === 1) {
-            seconds = parseFloat(parts) || 0;
+            seconds = parseFloat(parts[0]) || 0;
         }
 
         return hours * 3600 + minutes * 60 + seconds;

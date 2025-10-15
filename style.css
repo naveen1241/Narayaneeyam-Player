@@ -36,59 +36,73 @@ h1 {
 
 /* Custom audio controls styling */
 .custom-audio-controls {
+    border: 2px solid #fff;
+    border-radius: 50px;
+    padding: 15px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 20px 0;
-    padding: 10px;
-    background-color: #e6e6e6;
-    border-radius: 8px;
-}
-
-.main-controls {
-    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 15px;
+    width: 80%;
+    margin: 20px auto;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-#custom-play-pause {
-    padding: 10px 20px;
-}
-
-.audio-progress-bar {
-    flex-grow: 1;
-    height: 8px;
-    background-color: #ccc;
-    border-radius: 4px;
+/* Stylish button design (with oval/pill shape) */
+.control-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: transparent;
+    border: 1px solid #fff;
+    border-radius: 25px;
     cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+    text-transform: uppercase;
 }
 
-#progress-bar-fill {
-    height: 100%;
-    width: 0%;
-    background-color: #2e8b57;
-    border-radius: 4px;
+.control-button.large-button {
+    font-size: 2rem;
+    padding: 15px 25px;
+    border-radius: 35px;
 }
 
-.secondary-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.control-button:hover,
+.control-button.active {
+    background-color: #fff;
+    color: #556B2F;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
 }
 
-.repeat-controls {
-    display: flex;
-    gap: 5px;
+.control-button:active {
+    transform: translateY(1px);
 }
 
-/* Hide text and style buttons on hover */
-.control-with-text .button-text {
-    opacity: 0;
-    transition: opacity 0.3s;
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 8px;
+    background: #ccc;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
 }
 
-.control-with-text:hover .button-text {
+#volume-slider:hover {
     opacity: 1;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
 }
 
 /* Custom controls styling */
@@ -101,6 +115,12 @@ h1 {
     margin-top: 10px;
 }
 
+/* Box for repeat controls */
+.repeat-controls-group {
+    display: flex;
+    gap: 10px;
+}
+
 /* Box for navigation buttons */
 .navigation-controls-box {
     display: flex;
@@ -108,36 +128,6 @@ h1 {
     border: 1px solid #ddd;
     padding: 8px;
     border-radius: 5px;
-}
-
-/* Stylish button design (with oval/pill shape) */
-.control-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #2e8b57;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    text-transform: uppercase;
-}
-
-.control-button:hover {
-    background-color: #3cb371;
-}
-
-.control-button:active {
-    background-color: #228b22;
-    transform: translateY(1px);
-}
-
-/* Active (glowing) state for repeat buttons */
-.control-button.active {
-    box-shadow: 0 0 10px 2px #ffc107, 0 0 20px 5px #ffeb3b;
-    background-color: #ffc107;
-    color: #333;
 }
 
 /* Speed control styling */
