@@ -19,20 +19,13 @@
     
     <div class="audio-controls-container">
         <audio id="audio-player" controls></audio>
-        <button id="repeat-subsection" class="control-button audio-control">Repeat Verse</button>
-        <button id="repeat-chapter" class="control-button audio-control">Repeat Dashakam</button>
-    </div>
-    
-    <div class="custom-controls">
-        <div class="navigation-controls-box">
-            <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
-            <button id="prev-verse" class="control-button">Previous Verse</button>
-            <button id="next-verse" class="control-button">Next Verse</button>
-            <button id="next-dashakam" class="control-button">Next Dashakam</button>
-        </div>
-        
-        <div class="display-toggle">
-            <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
+        <div class="audio-control-buttons">
+            <button id="repeat-subsection" class="control-button audio-control control-with-text">
+                <span class="button-text">Repeat Verse</span>
+            </button>
+            <button id="repeat-chapter" class="control-button audio-control control-with-text">
+                <span class="button-text">Repeat Dashakam</span>
+            </button>
         </div>
         <div class="speed-control">
             <label for="speed-select">Speed:</label>
@@ -45,6 +38,19 @@
                 <option value="1.75">1.75x</option>
                 <option value="2.0">2.0x</option>
             </select>
+        </div>
+    </div>
+    
+    <div class="custom-controls">
+        <div class="navigation-controls-box">
+            <button id="prev-dashakam" class="control-button">Previous Dashakam</button>
+            <button id="prev-verse" class="control-button">Previous Verse</button>
+            <button id="next-verse" class="control-button">Next Verse</button>
+            <button id="next-dashakam" class="control-button">Next Dashakam</button>
+        </div>
+        
+        <div class="display-toggle">
+            <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
         </div>
     </div>
 
