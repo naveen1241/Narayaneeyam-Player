@@ -18,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const muteBtn = document.getElementById('mute-btn');
     const volumeSlider = document.getElementById('volume-slider');
 
+
+
+
+// Add to your existing Player.js file
+
+// Get new elements
+const seekBar = document.getElementById('seek-bar');
+const currentTimeDisplay = document.getElementById('current-time');
+const totalTimeDisplay = document.getElementById('total-time');
+
+
     let isRepeatingChapter = false;
     let isRepeatingSubsection = false;
     let currentChapterText = null;
@@ -284,6 +295,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+
+
+// Function to format time from seconds to mm:ss
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const paddedSeconds = String(remainingSeconds).padStart(2, '0');
+    return `${minutes}:${paddedSeconds}`;
+}
+
+// Event listener for when audio metadata is loaded (includes duration)
+audioPlayer.addEventListener('loadedmetadata', () => {
+    const duration = audioPlayer.duration;
+    seekBar.max = duration;
+    totalTimeDisplay.textContent = formatTime(duration);
+});
+
+// Event listener to update seek bar and time displays as audio plays
+audioPlayer.addEventListener('timeupdate', () => {
+    const currentTime = audioPlayer.currentTime;
+    const duration = audioPlayer.duration;
+    
+    seekBar.value = currentTime;
+    currentTimeDisplay.textContent = formatTime(currentTime);
+});
+
+// Event listener for user scrubbing the seek bar
+seekBar.addEventListener('input', () => {
+    // This allows real-time update of the current time display while dragging
+    currentTimeDisplay.textContent = formatTime(seekBar.value);
+});
+
+seekBar.addEventListener('change', () => {
+    // Seek the audio to the new position when the user releases the slider
+    audioPlayer.currentTime = seekBar.value;
+});
+
+
+
 
     function parseTime(timeStr) {
         if (!timeStr) return 0;
