@@ -90,24 +90,24 @@ document.addEventListener('DOMContentLoaded', () => {
             textContainer.innerHTML = `<p style="color:red;">Error loading text: ${error.message}</p>`;
             currentChapterText = [];
         }
-        
-        if (isPlaying) {
-            audioPlayer.play();
-        }
     }
 
     function updateTextDisplay() {
-        if (isDisplayingTransliteration) {
-            textContainer.innerHTML = currentTransliteratedContent.join('');
-            toggleTransliterationBtn.textContent = 'Display Sanskrit';
-        } else {
-            textContainer.innerHTML = currentChapterContent.join('');
-            toggleTransliterationBtn.textContent = 'Display English Transliteration';
+        // Clear the text container before adding new content
+        textContainer.innerHTML = '';
+        const contentToDisplay = isDisplayingTransliteration ? currentTransliteratedContent : currentChapterContent;
+        if (contentToDisplay) {
+            textContainer.innerHTML = contentToDisplay.join('');
         }
+        
+        toggleTransliterationBtn.textContent = isDisplayingTransliteration ? 'Display Sanskrit' : 'Display English Transliteration';
         currentChapterText = textContainer.querySelectorAll('p[data-start]');
         
-        const event = new Event('timeupdate');
-        audioPlayer.dispatchEvent(event);
+        // Force a re-evaluation of the current cue after a slight delay
+        setTimeout(() => {
+            const event = new Event('timeupdate');
+            audioPlayer.dispatchEvent(event);
+        }, 50);
     }
 
     chapterSelect.addEventListener('change', (e) => {
@@ -138,15 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.volume = parseFloat(e.target.value);
     });
 
-    // Main synchronization logic
     audioPlayer.addEventListener('timeupdate', () => {
         const currentTime = audioPlayer.currentTime;
         
         if (!currentChapterText || currentChapterText.length === 0) {
             return;
         }
-
-        // Hide all verses first
+        
         currentChapterText.forEach(p => p.style.display = 'none');
         
         let foundCue = false;
@@ -155,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const endTime = parseTime(p.dataset.end);
 
             if (currentTime >= startTime && currentTime < endTime) {
-                // Display the matching verse
                 p.style.display = 'block';
                 if (currentCueElement !== p) {
                     if (currentCueElement) {
@@ -170,9 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        if (!foundCue && currentCueElement) {
-             currentCueElement.classList.remove('highlight');
-             currentCueElement = null;
+        if (!foundCue) {
+             if (currentCueElement) {
+                currentCueElement.classList.remove('highlight');
+                currentCueElement = null;
+             }
+             // Optional: Display a message when no verse is playing
+             // textContainer.innerHTML = '<i>- No verse currently playing -</i>';
         }
         
         if (isRepeatingSubsection && currentSubsectionCue) {
@@ -219,14 +220,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let hours = 0, minutes = 0, seconds = 0;
 
         if (parts.length === 3) {
-            hours = parseInt(parts, 10) || 0;
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            hours = parseInt(parts[0], 10) || 0;
+            minutes = parseInt(parts[1], 10) || 0;
+            seconds = parseFloat(parts[2]) || 0;
         } else if (parts.length === 2) {
-            minutes = parseInt(parts, 10) || 0;
-            seconds = parseFloat(parts) || 0;
+            minutes = parseInt(parts[0], 10) || 0;
+            seconds = parseFloat(parts[1]) || 0;
         } else if (parts.length === 1) {
-            seconds = parseFloat(parts) || 0;
+            seconds = parseFloat(parts[0]) || 0;
         }
 
         return hours * 3600 + minutes * 60 + seconds;
