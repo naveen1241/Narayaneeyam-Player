@@ -3,21 +3,21 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     margin: 20px;
-    background-color: #3b3a2c; /* Dark olive background */
-    color: #e6e4d4; /* Off-white / light tan text */
+    background-color: #f0f7f4; /* A very light, minty green background */
+    color: #333; /* Darker text for readability on a light background */
 }
 
 .player-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #555447; /* Slightly brighter olive green for the player container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff; /* White background for the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
 h1 {
-    color: #d1c87a; /* A bright, yellowish-green for the main heading */
+    color: #2e8b57; /* A deep sea green for the main heading */
     text-align: center;
 }
 
@@ -36,18 +36,19 @@ h1 {
 
 /* Custom audio controls styling */
 .custom-audio-controls {
-    border: 2px solid #d1c87a;
+    border: 2px solid #2e8b57; /* Sea green border */
     border-radius: 50px;
     padding: 15px;
     display: flex;
-    flex-wrap: wrap; /* Important: Allows wrapping if needed */
+    flex-wrap: wrap; /* Allows wrapping if needed */
     align-items: center; /* Vertically aligns items */
     justify-content: center; /* Horizontally centers items */
     gap: 10px;
     width: 90%;
     margin: 20px auto;
-    background-color: #48473a;
+    background-color: #f7fffb; /* Lighter background for controls */
 }
+
 /* This is the key fix: ensures buttons and speed control stay in a row */
 .audio-controls-row {
     display: flex;
@@ -63,9 +64,9 @@ h1 {
     padding: 10px 15px;
     font-size: 14px;
     font-weight: bold;
-    color: #e6e4d4; /* Off-white text */
+    color: #2e8b57; /* Sea green text */
     background-color: transparent;
-    border: 1px solid #e6e4d4; /* Off-white border */
+    border: 1px solid #2e8b57; /* Sea green border */
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
@@ -77,15 +78,15 @@ h1 {
     font-size: 2rem;
     padding: 15px 25px;
     border-radius: 35px;
-    color: #e6e4d4;
-    border-color: #d1c87a; /* Bright olive border */
+    color: #2e8b57;
+    border-color: #2e8b57;
 }
 
 .control-button:hover,
 .control-button.active {
-    background-color: #d1c87a; /* Bright olive background on hover */
-    color: #3b3a2c; /* Dark olive text on hover */
-    box-shadow: 0 0 10px 5px rgba(209, 200, 122, 0.5);
+    background-color: #2e8b57; /* Green background on hover */
+    color: #ffffff; /* White text on hover */
+    box-shadow: 0 0 10px 5px rgba(46, 139, 87, 0.3);
 }
 
 .control-button:active {
@@ -98,7 +99,7 @@ h1 {
     flex-grow: 1;
     max-width: 150px;
     height: 8px;
-    background: #d1c87a; /* Bright olive track */
+    background: #98ff98; /* Light mint green track */
     outline: none;
     opacity: 0.8;
     transition: opacity .2s;
@@ -114,7 +115,7 @@ h1 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #e6e4d4; /* Off-white thumb */
+    background: #2e8b57; /* Sea green thumb */
     cursor: pointer;
 }
 
@@ -132,7 +133,7 @@ h1 {
     appearance: none;
     width: 100%;
     height: 8px;
-    background: #48473a; /* Darker olive track */
+    background: #c3f2d6; /* Light green track */
     outline: none;
     opacity: 0.8;
     transition: opacity .2s;
@@ -149,12 +150,12 @@ h1 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #d1c87a; /* Bright olive thumb */
+    background: #2e8b57; /* Sea green thumb */
     cursor: pointer;
 }
 
 .seek-bar-container span {
-    color: #e6e4d4;
+    color: #333;
     font-size: 0.9em;
     font-family: monospace;
 }
@@ -173,7 +174,7 @@ h1 {
 .navigation-controls-box {
     display: flex;
     gap: 10px;
-    border: 1px solid #d1c87a; /* Bright olive border */
+    border: 1px solid #2e8b57; /* Sea green border */
     padding: 8px;
     border-radius: 5px;
 }
@@ -190,35 +191,51 @@ h1 {
 #text-container {
     margin-top: 30px;
     padding: 15px;
-    background-color: #48473a; /* Darker olive background */
+    background-color: #f7fffb; /* Lighter background */
     border-radius: 8px;
-    border: 1px solid #d1c87a; /* Bright olive border */
+    border: 1px solid #2e8b57; /* Sea green border */
     min-height: 100px;
     text-align: center;
 }
 
 /* Highlighted verse styling */
 .highlight {
-    color: #d1c87a; /* Bright olive for highlights */
+    color: #2e8b57; /* Sea green for highlights */
     font-weight: bold;
 }
 
 /* Verse text with bigger font */
 .cue-text {
     font-size: 1.25em;
-    color: #e6e4d4; /* Off-white text */
+    color: #333;
 }
 
-/* Label styling adjustments for dark theme */
+/* Label styling adjustments for light theme */
 label {
-    color: #e6e4d4;
+    color: #333;
 }
 
 /* Styling for the select box (speed control) */
 select#speed-select {
-    background-color: #555447;
-    color: #e6e4d4;
-    border: 1px solid #d1c87a;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #2e8b57;
     padding: 5px;
     border-radius: 5px;
+}
+
+/* Additional styling for the play/pause button to look better with the new theme */
+.control-button.large-button {
+    color: #fff;
+    background-color: #2e8b57;
+}
+
+.control-button.large-button:hover {
+    background-color: #1f7844;
+}
+
+/* Add a class for transliteration and make the text look consistent */
+.transliteration-text {
+    font-family: 'Times New Roman', Times, serif; /* Or any other serif font for better readability */
+    font-size: 1.1em;
 }
