@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('option');
         const chapterNumber = String(i).padStart(3, '0');
         option.value = chapterNumber;
-        option.textContent = `Chapter ${i}`;
+        option.textContent = `Dashakam ${i}`;
         chapterSelect.appendChild(option);
     }
 
