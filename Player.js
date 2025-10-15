@@ -16,12 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSubsectionCue = null;
     let currentCueElement = null;
 
-    // New variables for handling transliteration
     let currentChapterContent = null;
     let currentTransliteratedContent = null;
     let isDisplayingTransliteration = false;
 
-    // --- Part 1: Initial setup ---
     for (let i = 1; i <= 100; i++) {
         const option = document.createElement('option');
         const chapterNumber = String(i).padStart(3, '0');
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chapterSelect.appendChild(option);
     }
 
-    // --- Part 2: Dynamic text and audio loading ---
     async function loadChapterContent(chapterNumber) {
         const chapterPadded = String(chapterNumber).padStart(3, '0');
         const audioPath = `Audio_Sync_S_Verses_Only/Narayaneeyam_D${chapterPadded}.mp3`;
@@ -38,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.load();
 
         try {
-            // Fetch both files simultaneously
             const [textResponse, translitResponse] = await Promise.all([
                 fetch('narayaneeyam_text.html'),
                 fetch('narayaneeyam_transliteration.html')
@@ -62,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let foundContent = { original: [], transliterated: [] };
             
-            // Function to extract and store chapter content
             function extractChapterContent(tempContainer, contentArray) {
                 const h2Elements = tempContainer.querySelectorAll('h2[data-chapter]');
                 for (const h2 of h2Elements) {
@@ -88,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn(`[Parse] No content found for chapter ${chapterNumber}. Check chapter title matching.`);
             }
 
-            // Initial display based on toggle state
             updateTextDisplay();
             
         } catch (error) {
@@ -102,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle display updates
     function updateTextDisplay() {
         if (isDisplayingTransliteration) {
             textContainer.innerHTML = currentTransliteratedContent.join('');
@@ -113,12 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentChapterText = textContainer.querySelectorAll('p[data-start]');
         
-        // Force a re-evaluation of the current cue
         const event = new Event('timeupdate');
         audioPlayer.dispatchEvent(event);
     }
 
-    // --- Part 3: Event Listeners and Logic ---
     chapterSelect.addEventListener('change', (e) => {
         loadChapterContent(e.target.value);
     });
@@ -154,6 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentChapterText || currentChapterText.length === 0) {
             return;
         }
+
+        // Hide all verses first
+        currentChapterText.forEach(p => p.style.display = 'none');
         
         let foundCue = false;
         for (const p of currentChapterText) {
@@ -161,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const endTime = parseTime(p.dataset.end);
 
             if (currentTime >= startTime && currentTime < endTime) {
+                // Display the matching verse
+                p.style.display = 'block';
                 if (currentCueElement !== p) {
                     if (currentCueElement) {
                         currentCueElement.classList.remove('highlight');
@@ -187,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Add a seeked event listener to force a re-evaluation on seeking
     audioPlayer.addEventListener('seeked', () => {
         const event = new Event('timeupdate');
         audioPlayer.dispatchEvent(event);
@@ -217,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         repeatSubsectionBtn.classList.toggle('active', isRepeatingSubsection);
     });
     
-    // Helper function to convert time string to seconds
     function parseTime(timeStr) {
         if (!timeStr) return 0;
         
@@ -238,6 +232,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return hours * 3600 + minutes * 60 + seconds;
     }
 
-    // Initial load
     loadChapterContent(chapterSelect.value);
 });
