@@ -50,7 +50,7 @@ h1 {
     background-color: #48473a; /* Darker olive green background for controls */
 }
 
-/* Container for audio buttons to keep them in a row */
+/* This is the key fix: ensures buttons and speed control stay in a row */
 .audio-controls-row {
     display: flex;
     flex-wrap: wrap;
@@ -185,7 +185,6 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
-    /* Ensure the speed control doesn't shrink unnecessarily */
     flex-shrink: 0;
 }
 
