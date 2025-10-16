@@ -1,99 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Narayaneeyam Player</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Narayaneeyam Audio Player</title>
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+  #subtitle { border: 1px solid #ccc; padding: 10px; margin: 1rem 0; height: 150px; overflow-y: auto; background: #f9f9f9; }
+  button { margin: 0 0.25rem; padding: 0.5rem 1rem; }
+  #speed { width: 80px; }
+  #status { margin-top: 0.5rem; font-style: italic; color: #555; }
+</style>
 </head>
 <body>
 
-<div class="player-container">
-    <div class="header">
-        <h1>Narayaneeyam Player</h1>
-        <div class="dashakam-navigation">
-            <label for="chapter-select">Select Dashakam:</label>
-            <select id="chapter-select"></select>
-        </div>
-    </div>
-    
-<div class="custom-audio-controls">
-    <audio id="audio-player"></audio>
-    <div class="main-controls">
-        <button id="custom-play-pause" class="control-button large-button">⏯</button>
-        <button id="rewind-btn" class="control-button">⏪</button>
-        <button id="forward-btn" class="control-button">⏩</button>
+<h1>Narayaneeyam Audio Player</h1>
 
-        <!-- Add title attribute for "Repeat Verse" button -->
-        <button id="repeat-subsection" class="control-button" title="Repeat Verse">
-            <i class="fa-solid fa-repeat-1"></i>
-        </button>
+<audio id="audio" controls preload="metadata">
+  Your browser does not support the audio element.
+</audio>
 
-        <!-- Add title attribute for "Repeat Dashakam" button -->
-        <button id="repeat-chapter" class="control-button" title="Repeat Dashakam">
-            <i class="fa-solid fa-repeat fa-lg"></i>
-        </button>
-
-        <button id="mute-btn" class="control-button" data-muted="false">🔊</button>
-        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
-    </div>
-
-    <!-- New seek bar and time display container -->
-    <div class="seek-bar-container">
-        <span id="current-time">0:00</span>
-        <input type="range" id="seek-bar" min="0" value="0" step="0.01">
-        <span id="total-time">0:00</span>
-    </div>
-
-    <div class="navigation-controls-box">
-        <!-- Left group: Previous buttons -->
-        <div class="navigation-group-left">
-            <button id="prev-dashakam" class="control-button" title="Previous Dashakam">
-                <i class="fa-solid fa-angles-left"></i> Dashakam
-            </button>
-            <button id="prev-verse" class="control-button" title="Previous Verse">
-                <i class="fa-solid fa-angle-left"></i> Verse
-            </button>
-        </div>
-
-        <!-- The speed control has been moved here -->
-        <div class="speed-control">
-            <label for="speed-select">Speed:</label>
-            <select id="speed-select">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="1.75">1.75x</option>
-                <option value="2.0">2.0x</option>
-            </select>
-        </div>
-
-        <!-- Right group: Next buttons -->
-        <div class="navigation-group-right">
-            <button id="next-verse" class="control-button" title="Next Verse">
-                Verse <i class="fa-solid fa-angle-right"></i>
-            </button>
-            <button id="next-dashakam" class="control-button" title="Next Dashakam">
-                Dashakam <i class="fa-solid fa-angles-right"></i>
-            </button>
-        </div>
-    </div>
+<div>
+  <button id="prev-dashaka">Previous Dashaka</button>
+  <button id="prev-verse">Previous Verse</button>
+  <button id="play-pause">Play</button>
+  <button id="next-verse">Next Verse</button>
+  <button id="next-dashaka">Next Dashaka</button>
+  Speed:
+  <select id="speed">
+    <option value="0.75">0.75x</option>
+    <option value="1" selected>1x</option>
+    <option value="1.25">1.25x</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x</option>
+  </select>
 </div>
 
+<div id="status"></div>
+<div id="subtitle">Loading subtitles...</div>
 
-<div class="custom-controls">
-    <div class="display-toggle">
-        <button id="toggle-transliteration" class="control-button">Display English Transliteration</button>
-    </div>
-</div>
+<script>
+(async () => {
+  // Adjust base URL to your GitHub raw content URLs or relative paths
+  const baseAudioURL = 'https://raw.githubusercontent.com/yourusername/yourrepo/main/audio/';
+  const baseVttURL = 'https://raw.githubusercontent.com/yourusername/yourrepo/main/Narayaneeyam_merged.vtt';
 
-<div id="text-container"></div>
+  const audio = document.getElementById('audio');
+  const subtitleDiv = document.getElementById('subtitle');
+  const statusDiv = document.getElementById('status');
+  const playPauseBtn = document.getElementById('play-pause');
+  const speedSelect = document.getElementById('speed');
 
-    <script src="Player.js"></script>
+  // State variables
+  let cues = [];         // Array of {start, end, text, verseIndex, dashakaIndex}
+  let currentCueIndex = 0;
+  let totalDashakas = 100;
+  let versesPerDashaka = 10; // Approximate (adjust if you want exact)
+
+  // Build list of audio files (100 mp3s)
+  const audioFiles = [];
+  for(let i=1; i <= totalDashakas; i++) {
+    const filename = `Narayaneeyam_D${String(i).padStart(3,'0')}.mp3`;
+    audioFiles.push(baseAudioURL + filename);
+  }
+
+  // Load and parse VTT file
+  async function loadVTT(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to load VTT file");
+    const text = await res.text();
+    return parseVTT(text);
+  }
+
+  // Simple VTT parser - returns cues with start/end time in seconds and text
+  function parseVTT(vttText) {
+    const cueRegex = /(\d+)\s+(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})\s+([\s\S]*?)(?=\n\d+\n|$)/g;
+    const parsed = [];
+    let match;
+
+    while ((match = cueRegex.exec(vttText)) !== null) {
+      const start = timeToSeconds(match[2]);
+      const end = timeToSeconds(match[3]);
+      const text = match[4].trim();
+
+      parsed.push({start, end, text});
+    }
+    return parsed;
+  }
+
+  // Convert "HH:MM:SS,mmm" to seconds (float)
+  function timeToSeconds(t) {
+    const parts = t.split(/[:,]/);
+    return (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]) + (+parts[3]) / 1000;
+  }
+
+  // Find dashaka and verse from cue index approx
+  // Since cues are continuous, and each dashaka has approx versesPerDashaka verses
+  function getDashakaVerse(idx) {
+    const dashaka = Math.floor(idx / versesPerDashaka) + 1;
+    const verse = (idx % versesPerDashaka) + 1;
+    return {dashaka, verse};
+  }
+
+  // Load VTT
+  cues = await loadVTT(baseVttURL);
+
+  // Prepare audio player with first dashaka
+  let currentDashaka = 1;
+  let isPlaying = false;
+
+  function loadDashaka(dashakaNum) {
+    if (dashakaNum < 1) dashakaNum = 1;
+    if (dashakaNum > totalDashakas) dashakaNum = totalDashakas;
+    currentDashaka = dashakaNum;
+
+    const audioSrc = audioFiles[dashakaNum - 1];
+    audio.src = audioSrc;
+    audio.load();
+
+    // Jump to first verse of this dashaka
+    // Find first cue belonging to this dashaka approx:
+    let idx = (dashakaNum -1) * versesPerDashaka;
+    if (idx >= cues.length) idx = cues.length - 1;
+
+    currentCueIndex = idx;
+    audio.currentTime = cues[idx].start;
+    updateSubtitle();
+    updateStatus();
+  }
+
+  function updateSubtitle() {
+    if (!cues[currentCueIndex]) {
+      subtitleDiv.textContent = "No subtitle available";
+      return;
+    }
+    subtitleDiv.textContent = cues[currentCueIndex].text;
+  }
+
+  function updateStatus() {
+    const {dashaka, verse} = getDashakaVerse(currentCueIndex);
+    statusDiv.textContent = `Dashaka: ${dashaka}, Verse: ${verse}, Playback speed: ${audio.playbackRate}x`;
+  }
+
+  // Play/pause toggle
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      isPlaying = true;
+      playPauseBtn.textContent = "Pause";
+    } else {
+      audio.pause();
+      isPlaying = false;
+      playPauseBtn.textContent = "Play";
+    }
+  });
+
+  // Speed control
+  speedSelect.addEventListener('change', () => {
+    audio.playbackRate = parseFloat(speedSelect.value);
+    updateStatus();
+  });
+
+  // Next/Previous Verse controls
+  document.getElementById('next-verse').addEventListener('click', () => {
+    if (currentCueIndex < cues.length - 1) {
+      currentCueIndex++;
+      jumpToCue(currentCueIndex);
+    }
+  });
+
+  document.getElementById('prev-verse').addEventListener('click', () => {
+    if (currentCueIndex > 0) {
+      currentCueIndex--;
+      jumpToCue(currentCueIndex);
+    }
+  });
+
+  // Next/Previous Dashaka controls
+  document.getElementById('next-dashaka').addEventListener('click', () => {
+    if (currentDashaka < totalDashakas) {
+      loadDashaka(currentDashaka + 1);
+    }
+  });
+
+  document.getElementById('prev-dashaka').addEventListener('click', () => {
+    if (currentDashaka > 1) {
+      loadDashaka(currentDashaka - 1);
+    }
+  });
+
+  function jumpToCue(idx) {
+    if (!cues[idx]) return;
+    // Check if cue is inside current audio duration, else load corresponding audio
+    // Since all audios play sequentially and merged VTT time is cumulative, 
+    // we have to map cue start time back to local audio time:
+
+    // Find dashaka based on index
+    const {dashaka} = getDashakaVerse(idx);
+
+    if (dashaka !== currentDashaka) {
+      // Load new audio and then jump
+      loadDashaka(dashaka);
+      // Delay jump until audio loaded
+      audio.addEventListener('loadedmetadata', () => {
+        audio.currentTime = cues[idx].start - getCumulativeDurationUpToDashaka(dashaka);
+        if(isPlaying) audio.play();
+        updateSubtitle();
+        updateStatus();
+      }, {once: true});
+    } else {
+      // Same audio, just jump
+      audio.currentTime = cues[idx].start - getCumulativeDurationUpToDashaka(dashaka);
+      if(isPlaying) audio.play();
+      updateSubtitle();
+      updateStatus();
+    }
+    currentCueIndex = idx;
+  }
+
+  // Helper to get cumulative duration of audios before dashaka N
+  // For simplicity, let's fetch durations of all audios once on load
+  const audioDurations = [];
+
+  async function getAllAudioDurations() {
+    for(let i=0; i < audioFiles.length; i++) {
+      const dur = await fetchAudioDuration(audioFiles[i]);
+      audioDurations.push(dur);
+    }
+  }
+
+  function getCumulativeDurationUpToDashaka(dashaka) {
+    // Sum durations of audios before given dashaka
+    return audioDurations.slice(0, dashaka - 1).reduce((a,b) => a+b, 0);
+  }
+
+  // Get duration of audio file by fetching headers
+  async function fetchAudioDuration(url) {
+    return new Promise((resolve) => {
+      const tempAudio = new Audio();
+      tempAudio.src = url;
+      tempAudio.addEventListener('loadedmetadata', () => {
+        resolve(tempAudio.duration);
+      });
+      tempAudio.addEventListener('error', () => {
+        console.warn('Error loading audio for duration:', url);
+        resolve(0);
+      });
+    });
+  }
+
+  // Update subtitle as audio plays
+  audio.addEventListener('timeupdate', () => {
+    const localTime = audio.currentTime + getCumulativeDurationUpToDashaka(currentDashaka);
+    // Find cue matching current time
+    for(let i=0; i < cues.length; i++) {
+      if(localTime >= cues[i].start && localTime <= cues[i].end) {
+        if(i !== currentCueIndex) {
+          currentCueIndex = i;
+          updateSubtitle();
+          updateStatus();
+        }
+        break;
+      }
+    }
+  });
+
+  // Initialize: get durations, then load first dashaka
+  statusDiv.textContent = "Loading audio durations...";
+  await getAllAudioDurations();
+  statusDiv.textContent = "Ready.";
+  loadDashaka(1);
+
+})();
+</script>
 
 </body>
 </html>
