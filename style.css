@@ -215,7 +215,7 @@ h1 {
 
 /* Verse text with bigger font */
 .larger-cue-text {
-    font-size: 2.5rem; /* This will be 2.5 times the base font size */
+    font-size: 1.4rem; /* This will be 2.5 times the base font size */
     color: #004d40;
 }
 
@@ -258,4 +258,67 @@ select#speed-select {
 /* Increase the font size for the larger repeat icon */
 #repeat-chapter i.fa-repeat {
     font-size: 1.0rem; /* Adjust as needed for desired size */
+}
+
+
+/* --- Mobile-specific styles start here (using a media query) --- */
+@media (max-width: 600px) {
+    body {
+        margin: 10px; /* Reduce margin on smaller screens */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Make the main heading smaller on mobile */
+    }
+
+    .player-container {
+        padding: 10px; /* Reduce padding inside the main container */
+    }
+
+    .audio-controls-row {
+        flex-direction: column; /* Stack controls vertically on small screens */
+        gap: 15px; /* Increase gap for better spacing */
+    }
+
+    /* Make buttons full-width for easier tapping on smaller screens */
+    .control-button {
+        width: 100%;
+        padding: 12px 0; /* Adjust padding for better touch targets */
+    }
+
+    .control-button.large-button {
+        font-size: 1.5rem; /* Slightly smaller for mobile */
+        padding: 12px 20px;
+    }
+
+    .navigation-controls-box {
+        flex-direction: row; /* Keep nav buttons side-by-side but with a smaller gap */
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .speed-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    #volume-slider,
+    select#speed-select {
+        flex-grow: 1;
+        max-width: 100%; /* Ensure sliders and selects are full-width */
+    }
+
+    .seek-bar-container {
+        flex-direction: column; /* Stack seek bar elements */
+        align-items: center;
+        gap: 5px;
+    }
+
+    .seek-bar-container span {
+        font-size: 0.8rem; /* Smaller timestamp font */
+    }
+
+    #text-container {
+        padding: 10px; /* Reduce text container padding */
+    }
 }
